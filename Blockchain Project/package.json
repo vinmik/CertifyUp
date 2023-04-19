@@ -1,0 +1,18 @@
+{
+  "dependencies": {
+    "ipfs-core": "^0.18.0",
+    "ipfs-http-client": "^60.0.0",
+    "nodemon": "^2.0.20",
+    "web3": "^1.9.0"
+  },
+  "name": "blockchain-project",
+  "version": "1.0.0",
+  "main": "truffle-config.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}

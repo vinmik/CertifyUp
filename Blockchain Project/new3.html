@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>nfteyy</title>
+    <link rel="stylesheet" href="new3.css">
+  </head>
+  <body>
+    <!-- make about section card style -->
+    
+    <div class="container">
+      <div class="header">
+        <!-- <img src="logo.png" alt="IPFS logo"> -->
+        <h1>nfteyy</h1>
+      </div>
+      <div class="card">
+        <div class="card-header">Upload File</div>
+        <div class="card-body">
+          <input type="file" id="file-upload" accept=".jpg, .jpeg, .png">
+          <button id="upload-button" onclick="uploadFile()">Upload</button>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">Retrieve File</div>
+        <div class="card-body">
+          <input type="text" id="cid-input" placeholder="Enter CID...">
+          <button id="retrieve-button" onclick="down()">Retrieve</button>
+        </div>
+        <div class="card-body">
+          <!-- <input type="text" id="cid-input" placeholder="Enter CID..."> -->
+          <button id="push_ethereum" onclick="help()">Push_ethereum</button>
+          <button id="get_ethereum" onclick="ret()">Return_ethereum</button>
+        </div>
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/ipfs/dist/index.min.js"></script>
+    <script>
+      let a;
+      let cid = '';
+      async function uploadFile() {
+        const fileInput = document.getElementById('file-upload');
+        const file = fileInput.files[0];
+        const reader = new FileReader();
+        const node = await window.Ipfs.create();
+        reader.onload = async() => {
+          const imageBuffer = reader.result;
+          const file = await node.add({
+            path: 'file.jpg',
+            content: imageBuffer instanceof Blob ? imageBuffer : new Blob([imageBuffer])
+          });
+          console.log("File Added: ", file.path, file.cid.toString());
+          alert("File Added successfully");
+          const cid = file.cid.toString();
+          const data = [];
+          for await (const chunk of node.cat(cid)) {
+            data.push(chunk);
+          }
+          const imageBuffer2 = new Uint8Array(data.reduce((prev, curr) => [...prev, ...curr], []));
+          const blob = new Blob([imageBuffer2], { type: 'image/jpeg' });
+          const url = URL.createObjectURL(blob);
+          a = document.createElement('a');
+        a.href = url;
+        a.download = 'retrieve.jpg';
+        };
+        reader.readAsArrayBuffer(file);
+      }
+      function down() {
+        a.click();
+      }
+    </script>
+    <script src="./push.js"></script>
+  </body>
+</html> 
